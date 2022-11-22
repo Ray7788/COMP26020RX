@@ -1,4 +1,4 @@
-CXX := g++
+CXX := g++-11
 CXX_STANDARD := 17
 BUILTIN_TIDY := 1
 
