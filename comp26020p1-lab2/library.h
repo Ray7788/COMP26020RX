@@ -23,7 +23,7 @@ public:
   void updateTitle(string newTitle);
   void updateYear(int newYear);
   void updateQuantity(int newQuantity);
-  stting getTitle();
+  string getTitle();
   int getYear();
   int getQuantity();
 
