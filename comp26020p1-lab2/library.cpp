@@ -10,12 +10,14 @@
 
 #include <cassert>
 ////
+#include <iostream>
 
 void Document::updateTitle(std::string newTitle) {
-  free(_title);
-  _title = (char *)malloc((strlen(newTitle) + 1) * sizeof(char));
-  assert(_title);
-  strcpy(_title, newTitle);
+  // free(_title);
+  // _title = (char *)malloc((strlen(newTitle) + 1) * sizeof(char));
+  // assert(_title);
+  // strcpy(_title, newTitle);
+  this->newTitle = newTitle;
 }
 
 void Document::updateYear(int newYear) { _year = newYear; }
@@ -33,95 +35,109 @@ int Document::borrowDoc() {
 }
 
 void Document::returnDoc() { _quantity++; }
+/*-------------------------------------------------------------------------------------------------*/
 
 Novel::Novel(std::string title, std::string author, int year, int quantity) {
-  _title = (char *)malloc((strlen(title) + 1) * sizeof(char));
-  _author = (char *)malloc((strlen(author) + 1) * sizeof(char));
-  assert(_title && _author);
-
-  strcpy(_title, title);
-  strcpy(_author, author);
+  // _title = (char *)malloc((strlen(title) + 1) * sizeof(char));
+  // _author = (char *)malloc((strlen(author) + 1) * sizeof(char));
+  // assert(_title && _author);
+  // strcpy(_title, title);
+  // strcpy(_author, author);
+  _title = title;
+  _author = author;
   _year = year;
   _quantity = quantity;
 }
 
 Novel::~Novel() {
-  free(_author);
-  free(_title);
+  // free(_author);
+  // free(_title);
 }
 
 DocType Novel::getDocType() { return DOC_NOVEL; }
 
 void Novel::print() {
-  printf("Novel, title: %s, author: %s, year: %d, quantity: %d\n", _title,
-         _author, _year, _quantity);
+  std::cout << "Novel, title: " << _title << ", author: " << _author << ", year: "<< _year << ", quantity: "<< _quantity << "\n";
+  // printf("Novel, title: %s, author: %s, year: %d, quantity: %d\n", _title,
+  //        _author, _year, _quantity);
 }
 
 void Novel::updateAuthor(std::string newAuthor) {
-  free(_author);
-  _author = (char *)malloc((strlen(newAuthor) + 1) * sizeof(char));
-  assert(_author);
-  strcpy(_author, newAuthor);
+  // free(_author);
+  // _author = (char *)malloc((strlen(newAuthor) + 1) * sizeof(char));
+  // assert(_author);
+  // strcpy(_author, newAuthor);
+  _author = newAuthor;
 }
 
 char *Novel::getAuthor() { return _author; }
+/*-------------------------------------------------------------------------------------------------*/
 
-Comic::Comic(std::string title, std::string author, int issue, int year,
-             int quantity) {
-  _title = (char *)malloc((strlen(title) + 1) * sizeof(char));
-  _author = (char *)malloc((strlen(author) + 1) * sizeof(char));
-  assert(_author && _title);
-  strcpy(_title, title);
-  strcpy(_author, author);
+Comic::Comic(std::string title, std::string author, int issue, int year, int quantity) {
+  // _title = (char *)malloc((strlen(title) + 1) * sizeof(char));
+  // _author = (char *)malloc((strlen(author) + 1) * sizeof(char));
+  // assert(_author && _title);
+  // strcpy(_title, title);
+  // strcpy(_author, author);
+  _title = title;
+  _author = author;
   _year = year;
   _quantity = quantity;
   _issue = issue;
 }
 
 Comic::~Comic() {
-  free(_author);
-  free(_title);
+  // free(_author);
+  // free(_title);
 }
 
 DocType Comic::getDocType() { return DOC_COMIC; }
 
 void Comic::print() {
-  printf("Comic, title: %s, author: %s, issue: %d, year: %d, quantity: %d\n",
-         _title, _author, _issue, _year, _quantity);
+  std::cout << "Comic, title: " << _title << ", author: " << ", year: "<< _year << ", quantity: "<< _quantity << "\n";
+  // printf("Comic, title: %s, author: %s, issue: %d, year: %d, quantity: %d\n",
+  //        _title, _author, _issue, _year, _quantity);
 }
 
 void Comic::updateAuthor(std::string newAuthor) {
-  free(_author);
-  _author = (char *)malloc((strlen(newAuthor) + 1) * sizeof(char));
-  assert(_author);
-  strcpy(_author, newAuthor);
+  // free(_author);
+  // _author = (char *)malloc((strlen(newAuthor) + 1) * sizeof(char));
+  // assert(_author);
+  // strcpy(_author, newAuthor);
+  _author = newAuthor;
 }
 
 void Comic::updateIssue(int newIssue) { _issue = newIssue; }
 char *Comic::getAuthor() { return _author; }
 int Comic::getIssue() { return _issue; }
+/*-------------------------------------------------------------------------------------------------*/
 
 Magazine::Magazine(std::string title, int issue, int year, int quantity) {
-  _title = (char *)malloc((strlen(title) + 1) * sizeof(char));
-  assert(_title);
+  // _title = (char *)malloc((strlen(title) + 1) * sizeof(char));
+  // assert(_title);
+  // strcpy(_title, title);
 
-  strcpy(_title, title);
   _year = year;
   _quantity = quantity;
   _issue = issue;
 }
 
-Magazine::~Magazine() { free(_title); }
+Magazine::~Magazine() { 
+  // free(_title);
+ }
 
 DocType Magazine::getDocType() { return DOC_MAGAZINE; }
 
 void Magazine::print() {
-  printf("Magazine, title: %s, issue: %d, year: %d, quantity: %d\n", _title,
-         _issue, _year, _quantity);
+  std::cout << "Magazine, title: " << _title << ", issue: " << _issue << ", year: "<< _year << ", quantity: "<< _quantity << "\n";
+  // printf("Magazine, title: %s, issue: %d, year: %d, quantity: %d\n", _title,
+  //        _issue, _year, _quantity);
 }
 
 void Magazine::updateIssue(int newIssue) { _issue = newIssue; }
 int Magazine::getIssue() { return _issue; }
+
+/*-------------------------------------------------------------------------------------------------*/
 
 Library::Library() { _docs_sz = 0; };
 
