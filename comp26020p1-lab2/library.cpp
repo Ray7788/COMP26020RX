@@ -9,8 +9,9 @@
 #include <unistd.h>
 
 #include <cassert>
+////
 
-void Document::updateTitle(const char *newTitle) {
+void Document::updateTitle(std::string newTitle) {
   free(_title);
   _title = (char *)malloc((strlen(newTitle) + 1) * sizeof(char));
   assert(_title);
@@ -33,7 +34,7 @@ int Document::borrowDoc() {
 
 void Document::returnDoc() { _quantity++; }
 
-Novel::Novel(const char *title, const char *author, int year, int quantity) {
+Novel::Novel(std::string title, std::string author, int year, int quantity) {
   _title = (char *)malloc((strlen(title) + 1) * sizeof(char));
   _author = (char *)malloc((strlen(author) + 1) * sizeof(char));
   assert(_title && _author);
@@ -56,7 +57,7 @@ void Novel::print() {
          _author, _year, _quantity);
 }
 
-void Novel::updateAuthor(const char *newAuthor) {
+void Novel::updateAuthor(std::string newAuthor) {
   free(_author);
   _author = (char *)malloc((strlen(newAuthor) + 1) * sizeof(char));
   assert(_author);
@@ -65,7 +66,7 @@ void Novel::updateAuthor(const char *newAuthor) {
 
 char *Novel::getAuthor() { return _author; }
 
-Comic::Comic(const char *title, const char *author, int issue, int year,
+Comic::Comic(std::string title, std::string author, int issue, int year,
              int quantity) {
   _title = (char *)malloc((strlen(title) + 1) * sizeof(char));
   _author = (char *)malloc((strlen(author) + 1) * sizeof(char));
@@ -89,7 +90,7 @@ void Comic::print() {
          _title, _author, _issue, _year, _quantity);
 }
 
-void Comic::updateAuthor(const char *newAuthor) {
+void Comic::updateAuthor(std::string newAuthor) {
   free(_author);
   _author = (char *)malloc((strlen(newAuthor) + 1) * sizeof(char));
   assert(_author);
@@ -100,7 +101,7 @@ void Comic::updateIssue(int newIssue) { _issue = newIssue; }
 char *Comic::getAuthor() { return _author; }
 int Comic::getIssue() { return _issue; }
 
-Magazine::Magazine(const char *title, int issue, int year, int quantity) {
+Magazine::Magazine(std::string title, int issue, int year, int quantity) {
   _title = (char *)malloc((strlen(title) + 1) * sizeof(char));
   assert(_title);
 
@@ -124,7 +125,7 @@ int Magazine::getIssue() { return _issue; }
 
 Library::Library() { _docs_sz = 0; };
 
-int Library::addDocument(DocType t, const char *title, const char *author,
+int Library::addDocument(DocType t, std::string title, std::string author,
                          int issue, int year, int quantity) {
   Document *d;
   switch (t) {
@@ -158,7 +159,7 @@ int Library::addDocument(Document *d) {
   return 1;
 }
 
-int Library::delDocument(const char *title) {
+int Library::delDocument(std::string title) {
   int index = -1;
   for (int i = 0; i < _docs_sz; i++)
     if (!strcmp(_docs[i]->getTitle(), title)) {
@@ -187,7 +188,7 @@ int Library::countDocumentOfType(DocType t) {
   return res;
 }
 
-Document *Library::searchDocument(const char *title) {
+Document *Library::searchDocument(std::string title) {
   for (int i = 0; i < _docs_sz; i++)
     if (!strcmp(_docs[i]->getTitle(), title))
       return _docs[i];
@@ -200,14 +201,14 @@ void Library::print() {
     _docs[i]->print();
 }
 
-int Library::borrowDoc(const char *title) {
+int Library::borrowDoc(std::string title) {
   Document *d = searchDocument(title);
   if (d)
     return d->borrowDoc();
   return 0;
 }
 
-int Library::returnDoc(const char *title) {
+int Library::returnDoc(std::string title) {
   Document *d = searchDocument(title);
   if (d) {
     d->returnDoc();
@@ -216,7 +217,7 @@ int Library::returnDoc(const char *title) {
   return 0;
 }
 
-int Library::dumpCSV(const char *filename) {
+int Library::dumpCSV(std::string filename) {
   char line[128];
   int bytes_written;
   int fd = open(filename, O_WRONLY | O_CREAT | O_TRUNC, S_IRUSR | S_IWUSR);
