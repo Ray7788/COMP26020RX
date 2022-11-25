@@ -1,7 +1,8 @@
 #pragma once
 #include <string>
 /* The different types of documents stored in the library */
-typedef enum { DOC_NOVEL, DOC_COMIC, DOC_MAGAZINE } DocType;
+// typedef enum { DOC_NOVEL, DOC_COMIC, DOC_MAGAZINE } DocType;
+enum DocType { DOC_NOVEL, DOC_COMIC, DOC_MAGAZINE };
 
 /* Parent class for all types of documents */
 class Document {
@@ -123,7 +124,7 @@ public:
    * 0 on failure.  */
   int addDocument(DocType t, std::string title, std::string author, int issue,
                   int year, int quantity);
-  int addDocument(Document *d);
+  int addDocument(Document &d);
   int delDocument(std::string title);
 
   /* Count the number of document of a given type present in the library */
