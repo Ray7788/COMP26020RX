@@ -19,12 +19,12 @@ void Document::updateTitle(std::string newTitle) {
   // _title = (char *)malloc((strlen(newTitle) + 1) * sizeof(char));
   // assert(_title);
   // strcpy(_title, newTitle);
-  this->newTitle = newTitle;
+  this->_title = newTitle;
 }
 
 void Document::updateYear(int newYear) { _year = newYear; }
 void Document::updateQuantity(int newQuantity) { _quantity = newQuantity; }
-string Document::getTitle() { return _title; }
+std::string Document::getTitle() { return _title; }
 int Document::getYear() { return _year; }
 int Document::getQuantity() { return _quantity; }
 
@@ -72,7 +72,7 @@ void Novel::updateAuthor(std::string newAuthor) {
   _author = newAuthor;
 }
 
-string Novel::getAuthor() { return _author; }
+std::string Novel::getAuthor() { return _author; }
 /*-------------------------------------------------------------------------------------------------*/
 
 Comic::Comic(std::string title, std::string author, int issue, int year, int quantity) {
@@ -110,7 +110,7 @@ void Comic::updateAuthor(std::string newAuthor) {
 }
 
 void Comic::updateIssue(int newIssue) { _issue = newIssue; }
-string Comic::getAuthor() { return _author; }
+std::string Comic::getAuthor() { return _author; }
 int Comic::getIssue() { return _issue; }
 /*-------------------------------------------------------------------------------------------------*/
 
