@@ -20,10 +20,10 @@ public:
   virtual void print() = 0;
 
   /* setters and getters */
-  void updateTitle(string newTitle);
+  void updateTitle(std::string newTitle);
   void updateYear(int newYear);
   void updateQuantity(int newQuantity);
-  string getTitle();
+  std::string getTitle();
   int getYear();
   int getQuantity();
 
@@ -36,7 +36,7 @@ public:
 
 protected:
   /* These need to be protected to be inherited by the child classes */
-  string _title;  // document title
+  std::string _title;  // document title
   int _year;     // year of parution
   int _quantity; // quantity held in the library, should be updated on
                  // borrow (-1) and return (+1)
@@ -51,11 +51,11 @@ public:
 
   /* getters and setters */
   void updateAuthor(std::string newAuthor);
-  char *getAuthor();
+  std::string getAuthor();
 
 private:
   /* In addition to the base Document's attributes, a novel has an author */
-  char *_author;
+  std::string _author;
 };
 
 class Comic : public Document {
@@ -69,13 +69,13 @@ public:
   /* getters, setters */
   void updateAuthor(std::string newAuthor);
   void updateIssue(int newIssue);
-  char *getAuthor();
+  std::string getAuthor();
   int getIssue();
 
 private:
   /* In addition to the base Document's attributes, a comic has an author as
    * well as an issue number */
-  char *_author;
+  std::string _author;
   int _issue;
 };
 
