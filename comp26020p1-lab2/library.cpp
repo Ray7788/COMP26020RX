@@ -11,6 +11,8 @@
 #include <cassert>
 ////
 #include <iostream>
+#include <string>
+
 
 void Document::updateTitle(std::string newTitle) {
   // free(_title);
@@ -22,7 +24,7 @@ void Document::updateTitle(std::string newTitle) {
 
 void Document::updateYear(int newYear) { _year = newYear; }
 void Document::updateQuantity(int newQuantity) { _quantity = newQuantity; }
-char *Document::getTitle() { return _title; }
+string Document::getTitle() { return _title; }
 int Document::getYear() { return _year; }
 int Document::getQuantity() { return _quantity; }
 
@@ -70,7 +72,7 @@ void Novel::updateAuthor(std::string newAuthor) {
   _author = newAuthor;
 }
 
-char *Novel::getAuthor() { return _author; }
+string Novel::getAuthor() { return _author; }
 /*-------------------------------------------------------------------------------------------------*/
 
 Comic::Comic(std::string title, std::string author, int issue, int year, int quantity) {
@@ -108,7 +110,7 @@ void Comic::updateAuthor(std::string newAuthor) {
 }
 
 void Comic::updateIssue(int newIssue) { _issue = newIssue; }
-char *Comic::getAuthor() { return _author; }
+string Comic::getAuthor() { return _author; }
 int Comic::getIssue() { return _issue; }
 /*-------------------------------------------------------------------------------------------------*/
 
