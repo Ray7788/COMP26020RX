@@ -19,7 +19,7 @@ void Document::updateTitle(std::string newTitle) {
   // _title = (char *)malloc((strlen(newTitle) + 1) * sizeof(char));
   // assert(_title);
   // strcpy(_title, newTitle);
-  this->_title = newTitle;
+  _title = newTitle;
 }
 
 void Document::updateYear(int newYear) { _year = newYear; }
@@ -118,7 +118,6 @@ Magazine::Magazine(std::string title, int issue, int year, int quantity) {
   // _title = (char *)malloc((strlen(title) + 1) * sizeof(char));
   // assert(_title);
   // strcpy(_title, title);
-
   _year = year;
   _quantity = quantity;
   _issue = issue;
@@ -139,7 +138,7 @@ void Magazine::print() {
 void Magazine::updateIssue(int newIssue) { _issue = newIssue; }
 int Magazine::getIssue() { return _issue; }
 
-/*-------------------------------------------------------------------------------------------------*/
+/*-----------------------------------------------------------------------------------------------------------------------------------------------------------------*/
 
 Library::Library() { _docs_sz = 0; };
 
@@ -206,7 +205,7 @@ int Library::countDocumentOfType(DocType t) {
   return res;
 }
 
-Document *Library::searchDocument(std::string title) {
+Document Library::searchDocument(std::string title) {
   for (int i = 0; i < _docs_sz; i++)
     if (!strcmp(_docs[i]->getTitle(), title))
       return _docs[i];
