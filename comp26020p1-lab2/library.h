@@ -1,4 +1,5 @@
 #pragma once
+#include <fstream>
 #include <iostream>
 #include <string>
 #include <vector>
@@ -144,7 +145,6 @@ private:
   /* Holds all documents in the library */
   // Document *_docs[32 * 1024];
   std::vector<Document*> _docs;
-  std::vector<std::unique_ptr<Document>> _docs;
   int _docs_sz;
-  std::vector<Document> values;
+  // std::vector<Document> values;
 };
