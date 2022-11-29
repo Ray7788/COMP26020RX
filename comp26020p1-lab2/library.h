@@ -1,5 +1,9 @@
 #pragma once
+#include <iostream>
 #include <string>
+#include <vector>
+#include <memory>
+
 /* The different types of documents stored in the library */
 // typedef enum { DOC_NOVEL, DOC_COMIC, DOC_MAGAZINE } DocType;
 enum DocType { DOC_NOVEL, DOC_COMIC, DOC_MAGAZINE };
@@ -97,6 +101,8 @@ private:
   int _issue;
 };
 
+/*-----------------------------------------------------------------------------------------------------------------------------------------------------------------*/
+
 /* One instance of that class represents a library */
 class Library {
 public:
@@ -138,4 +144,5 @@ private:
   /* Holds all documents in the library */
   Document *_docs[32 * 1024];
   int _docs_sz;
+  std::vector<Document> values;
 };
