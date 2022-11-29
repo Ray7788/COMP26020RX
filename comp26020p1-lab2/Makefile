@@ -1,6 +1,6 @@
-CXX := g++-11
+CXX := g++-10
 CXX_STANDARD := 17
-BUILTIN_TIDY := 1
+BUILTIN_TIDY := 0
 
 ifeq ($(BUILTIN_TIDY), 1) 
 TIDY := ./clang/bin/clang-tidy
