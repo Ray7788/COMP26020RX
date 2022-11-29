@@ -283,24 +283,24 @@ int Library::dumpCSV(std::string filename) {
 
     switch (d->getDocType()) {
     case DOC_NOVEL: {
-      Novel *n = (Novel *)&d;
-      ofs << "novel" << n->getTitle() << "," << n->getAuthor() << "," << n->getYear() << "," << n->getQuantity() << std::endl;
+      Novel *n = (Novel *)d;
+      ofs << "novel," << n->getTitle() << "," << n->getAuthor() << ",," << n->getYear() << "," << n->getQuantity() << std::endl;
       // sprintf(line, "novel,%s,%s,,%d,%d\n", n->getTitle(), n->getAuthor(),
       //         n->getYear(), n->getQuantity());
       break;
     }
 
     case DOC_COMIC: {
-      Comic *c = (Comic *)&d;
-      ofs << "comic" << c->getTitle() << "," << c->getAuthor() << ",," << c->getIssue() << "," << c->getYear() << "," << c->getQuantity() << std::endl;
+      Comic *c = (Comic *)d;
+      ofs << "comic," << c->getTitle() << "," << c->getAuthor() << "," << c->getIssue() << "," << c->getYear() << "," << c->getQuantity() << std::endl;
       // sprintf(line, "comic,%s,%s,%d,%d,%d\n", c->getTitle(), c->getAuthor(),
       //         c->getIssue(), c->getYear(), c->getQuantity());
       break;
     }
 
     case DOC_MAGAZINE: {
-      Magazine *m = (Magazine *)&d;
-      ofs << "magazine" << m->getTitle() << ",," << m->getIssue() << "," << m->getYear() << "," << m->getQuantity() << std::endl;
+      Magazine *m = (Magazine *)d;
+      ofs << "magazine," << m->getTitle() << ",," << m->getIssue() << "," << m->getYear() << "," << m->getQuantity() << std::endl;
       // sprintf(line, "magazine,%s,,%d,%d,%d\n", m->getTitle(), m->getIssue(),
       //         m->getYear(), m->getQuantity());
       break;
