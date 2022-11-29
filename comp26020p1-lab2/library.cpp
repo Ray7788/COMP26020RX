@@ -190,11 +190,11 @@ int Library::addDocument(Document &d) {
 }
 
 int Library::delDocument(std::string title) {
-  int index = -1;
+  // int index = -1;
   for (int i = 0; i < _docs_sz; i++)
     // if (!strcmp(_docs[i]->getTitle(), title)) {
     if ((_docs[i]->getTitle()).compare(title)) {
-      Document &d = _docs[i];
+      values.erase(values.begin()+i);
       return 1;
     }
 
@@ -223,11 +223,11 @@ int Library::countDocumentOfType(DocType t) {
   return res;
 }
 
-Document Library::searchDocument(std::string title) {
+Document *Library::searchDocument(std::string title) {
   for (int i = 0; i < _docs_sz; i++){
     // if (!strcmp(_docs[i]->getTitle(), title))
     if (!(_docs[i]->getTitle()).compare(title)){ 
-      return _docs[i];
+      return *_docs[i];
     }
   }
 
@@ -241,7 +241,7 @@ void Library::print() {
 }
 
 int Library::borrowDoc(std::string title) {
-  Document &d = searchDocument(title);
+  Document *d = searchDocument(title);
   if (d){
     return d->borrowDoc();
   }
@@ -249,7 +249,7 @@ int Library::borrowDoc(std::string title) {
 }
 
 int Library::returnDoc(std::string title) {
-  Document &d = searchDocument(title);
+  Document *d = searchDocument(title);
   if (&d) {
     &d->returnDoc();
     return 1;
@@ -258,34 +258,43 @@ int Library::returnDoc(std::string title) {
 }
 
 int Library::dumpCSV(std::string filename) {
-  char line[128];
+  // char line[128];
+  std::string line;
   int bytes_written;
-  int fd = open(filename, O_WRONLY | O_CREAT | O_TRUNC, S_IRUSR | S_IWUSR);
-  if (fd == -1)
+
+  std::ofstream ofs;
+  ofs.open(filename);
+  // ofs.open(filename, ofs::in | ios::out | ios::trunc);
+  // int fd = open(filename, O_WRONLY | O_CREAT | O_TRUNC, S_IRUSR | S_IWUSR);
+  if (!ofs){
     return 0;
+  }
 
   for (int i = 0; i < _docs_sz; i++) {
     Document &d = _docs[i];
+
     switch (d->getDocType()) {
     case DOC_NOVEL: {
-      Novel *n = (Novel *)d;
-      sprintf(line, "novel,%s,%s,,%d,%d\n", n->getTitle(), n->getAuthor(),
-              n->getYear(), n->getQuantity());
+      Novel *n = (Novel *)&d;
+      ofs << "novel" << n->getTitle() << "," << n->getAuthor() << "," << n->getYear() << "," << n->getQuantity() << std::endl;
+      // sprintf(line, "novel,%s,%s,,%d,%d\n", n->getTitle(), n->getAuthor(),
+      //         n->getYear(), n->getQuantity());
       break;
     }
 
     case DOC_COMIC: {
-      Comic *c = (Comic *)d;
-      sprintf(line, "comic,%s,%s,%d,%d,%d\n", c->getTitle(), c->getAuthor(),
-              c->getIssue(), c->getYear(), c->getQuantity());
+      Comic *c = (Comic *)&d;
+      ofs << "comic" << n->getTitle() << "," << n->getAuthor() << "," << c->getIssue() << "," << n->getYear() << "," << << n->getQuantity() << std::endl;
+      // sprintf(line, "comic,%s,%s,%d,%d,%d\n", c->getTitle(), c->getAuthor(),
+      //         c->getIssue(), c->getYear(), c->getQuantity());
       break;
     }
 
     case DOC_MAGAZINE: {
-      Magazine *m = (Magazine *)d;
-      sprintf(line, "magazine,%s,,%d,%d,%d\n", m->getTitle(), m->getIssue(),
-              m->getYear(), m->getQuantity());
-
+      Magazine *m = (Magazine *)&d;
+      ofs << "magazine" << m->getTitle() << "," << m->getIssue() << "," << m->getYear() << "," << m->getQuantity() << std::endl;
+      // sprintf(line, "magazine,%s,,%d,%d,%d\n", m->getTitle(), m->getIssue(),
+      //         m->getYear(), m->getQuantity());
       break;
     }
 
@@ -293,9 +302,9 @@ int Library::dumpCSV(std::string filename) {
       return 0;
     }
 
-    bytes_written = write(fd, line, strlen(line));
-    if (bytes_written != strlen(line))
-      return 0;
+    // bytes_written = write(fd, line, strlen(line));
+    // if (bytes_written != strlen(line))
+      // return 0;
   }
 
   close(fd);
