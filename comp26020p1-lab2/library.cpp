@@ -151,8 +151,10 @@ int Library::addDocument(DocType t, std::string title, std::string author,
   switch (t) {
   case DOC_NOVEL: {
     // d = (Document *)new Novel(title, author, year, quantity);
+
+    auto d(std::make_unique<Document>(title, author, year, quantity));
     std::unique_ptr<Document> d(new Novel(title, author, year, quantity));
-    return addDocument(*d);
+    return addDocument(d);
     break;
   }
 

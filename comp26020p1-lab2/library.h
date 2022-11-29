@@ -142,7 +142,8 @@ public:
 
 private:
   /* Holds all documents in the library */
-  Document *_docs[32 * 1024];
+  // Document *_docs[32 * 1024];
+  std::vector<Document> _docs;
   int _docs_sz;
   std::vector<Document> values;
 };
