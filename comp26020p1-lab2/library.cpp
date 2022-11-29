@@ -177,7 +177,7 @@ int Library::addDocument(DocType t, std::string title, std::string author,
   }
 }
 
-int Library::addDocument(Document &d) {
+int Library::addDocument(Document *d) {
   for (int i = 0; i < _docs_sz; i++){
     // if (!strcmp(_docs[i]->getTitle(), d->getTitle()))
     if (!(_docs[i]->getTitle()).compare(d.getTitle())){
@@ -229,7 +229,7 @@ Document *Library::searchDocument(std::string title) {
   for (int i = 0; i < _docs_sz; i++){
     // if (!strcmp(_docs[i]->getTitle(), title))
     if (!(_docs[i]->getTitle()).compare(title)){ 
-      return *_docs[i];
+      return _docs[i];
     }
   }
 
