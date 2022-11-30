@@ -18,10 +18,6 @@
 
 
 void Document::updateTitle(std::string newTitle) {
-  // free(_title);
-  // _title = (char *)malloc((strlen(newTitle) + 1) * sizeof(char));
-  // assert(_title);
-  // strcpy(_title, newTitle);
   _title = newTitle;
 }
 
@@ -43,11 +39,6 @@ void Document::returnDoc() { _quantity++; }
 /*-------------------------------------------------------------------------------------------------*/
 
 Novel::Novel(std::string title, std::string author, int year, int quantity) {
-  // _title = (char *)malloc((strlen(title) + 1) * sizeof(char));
-  // _author = (char *)malloc((strlen(author) + 1) * sizeof(char));
-  // assert(_title && _author);
-  // strcpy(_title, title);
-  // strcpy(_author, author);
   _title = title;
   _author = author;
   _year = year;
@@ -55,23 +46,15 @@ Novel::Novel(std::string title, std::string author, int year, int quantity) {
 }
 
 Novel::~Novel() {
-  // free(_author);
-  // free(_title);
 }
 
 DocType Novel::getDocType() { return DOC_NOVEL; }
 
 void Novel::print() {
   std::cout << "Novel, title: " << _title << ", author: " << _author << ", year: "<< _year << ", quantity: "<< _quantity << "\n";
-  // printf("Novel, title: %s, author: %s, year: %d, quantity: %d\n", _title,
-  //        _author, _year, _quantity);
 }
 
 void Novel::updateAuthor(std::string newAuthor) {
-  // free(_author);
-  // _author = (char *)malloc((strlen(newAuthor) + 1) * sizeof(char));
-  // assert(_author);
-  // strcpy(_author, newAuthor);
   _author = newAuthor;
 }
 
@@ -79,11 +62,6 @@ std::string Novel::getAuthor() { return _author; }
 /*-------------------------------------------------------------------------------------------------*/
 
 Comic::Comic(std::string title, std::string author, int issue, int year, int quantity) {
-  // _title = (char *)malloc((strlen(title) + 1) * sizeof(char));
-  // _author = (char *)malloc((strlen(author) + 1) * sizeof(char));
-  // assert(_author && _title);
-  // strcpy(_title, title);
-  // strcpy(_author, author);
   _title = title;
   _author = author;
   _year = year;
@@ -92,23 +70,15 @@ Comic::Comic(std::string title, std::string author, int issue, int year, int qua
 }
 
 Comic::~Comic() {
-  // free(_author);
-  // free(_title);
 }
 
 DocType Comic::getDocType() { return DOC_COMIC; }
 
 void Comic::print() {
   std::cout << "Comic, title: " << _title << ", author: " << _author << ", issue: " << _issue << ", year: "<< _year << ", quantity: "<< _quantity << "\n";
-  // printf("Comic, title: %s, author: %s, issue: %d, year: %d, quantity: %d\n",
-  //        _title, _author, _issue, _year, _quantity);
 }
 
 void Comic::updateAuthor(std::string newAuthor) {
-  // free(_author);
-  // _author = (char *)malloc((strlen(newAuthor) + 1) * sizeof(char));
-  // assert(_author);
-  // strcpy(_author, newAuthor);
   _author = newAuthor;
 }
 
@@ -118,9 +88,6 @@ int Comic::getIssue() { return _issue; }
 /*-------------------------------------------------------------------------------------------------*/
 
 Magazine::Magazine(std::string title, int issue, int year, int quantity) {
-  // _title = (char *)malloc((strlen(title) + 1) * sizeof(char));
-  // assert(_title);
-  // strcpy(_title, title);
   _title = title;
   _year = year;
   _quantity = quantity;
@@ -128,15 +95,12 @@ Magazine::Magazine(std::string title, int issue, int year, int quantity) {
 }
 
 Magazine::~Magazine() { 
-  // free(_title);
  }
 
 DocType Magazine::getDocType() { return DOC_MAGAZINE; }
 
 void Magazine::print() {
   std::cout << "Magazine, title: " << _title << ", issue: " << _issue << ", year: "<< _year << ", quantity: "<< _quantity << "\n";
-  // printf("Magazine, title: %s, issue: %d, year: %d, quantity: %d\n", _title,
-  //        _issue, _year, _quantity);
 }
 
 void Magazine::updateIssue(int newIssue) { _issue = newIssue; }
@@ -152,24 +116,16 @@ int Library::addDocument(DocType t, std::string title, std::string author,
   switch (t) {
   case DOC_NOVEL: {
     d = (Document *)new Novel(title, author, year, quantity);
-
-    // auto d(std::make_unique<Document>(title, author, year, quantity));
-    // std::unique_ptr<Document> d(new Novel(title, author, year, quantity));
-    // return addDocument(d);
     break;
   }
 
   case DOC_COMIC: {
     d = (Document *)new Comic(title, author, issue, year, quantity);
-    // std::unique_ptr<Document> d(new Comic(title, author, issue, year, quantity));
-    // return addDocument(*d);
     break;
   }
 
   case DOC_MAGAZINE: {
     d = (Document *)new Magazine(title, issue, year, quantity);
-    // std::unique_ptr<Document> d(new Magazine(title, issue, year, quantity));
-    // return addDocument(*d);
     break;
   }
 
@@ -181,7 +137,6 @@ int Library::addDocument(DocType t, std::string title, std::string author,
 
 int Library::addDocument(Document *d) {
   for (int i = 0; i < _docs_sz; i++){
-    // if (!strcmp(_docs[i]->getTitle(), d->getTitle()))
     if (!(_docs[i]->getTitle()).compare(d->getTitle())){
       return 0;
     }
@@ -189,14 +144,12 @@ int Library::addDocument(Document *d) {
   
   _docs.push_back(d);
   _docs_sz++;
-  // _docs[_docs_sz++] = d;
   return 1;
 }
 
 int Library::delDocument(std::string title) {
   int index = -1;
   for (int i = 0; i < _docs_sz; i++){
-    // if (!strcmp(_docs[i]->getTitle(), title)) {
     if (!(_docs[i]->getTitle()).compare(title)) {
       index = i;
       break;
@@ -209,15 +162,7 @@ int Library::delDocument(std::string title) {
       return 1;
     }
 
-    //   free(_docs[index]);
-    //   for (int i = index + 1; i < _docs_sz; i++){
-    //     _docs[i - 1] = _docs[i];  
-    //   }
-    //   return 1;
-    // }
-
   return 0;
-  
 }
 
 int Library::countDocumentOfType(DocType t) {
@@ -234,7 +179,6 @@ int Library::countDocumentOfType(DocType t) {
 
 Document *Library::searchDocument(std::string title) {
   for (int i = 0; i < _docs_sz; i++){
-    // if (!strcmp(_docs[i]->getTitle(), title))
     if (!(_docs[i]->getTitle()).compare(title)){ 
       return _docs[i];
     }
@@ -266,14 +210,9 @@ int Library::returnDoc(std::string title) {
 }
 
 int Library::dumpCSV(std::string filename) {
-  // char line[128];
-  // std::string line;
-  // int bytes_written;
-
   std::ofstream ofs;
   ofs.open(filename);
-  // ofs.open(filename, ofs::in | ios::out | ios::trunc);
-  // int fd = open(filename, O_WRONLY | O_CREAT | O_TRUNC, S_IRUSR | S_IWUSR);
+
   if (!ofs){
     return 0;
   }
@@ -283,7 +222,8 @@ int Library::dumpCSV(std::string filename) {
 
     switch (d->getDocType()) {
     case DOC_NOVEL: {
-      Novel *n = (Novel *)d;
+      // Novel *n = (Novel *)d;
+      Novel* n = dynamic_cast<Novel*> (d);
       ofs << "novel," << n->getTitle() << "," << n->getAuthor() << ",," << n->getYear() << "," << n->getQuantity() << std::endl;
       // sprintf(line, "novel,%s,%s,,%d,%d\n", n->getTitle(), n->getAuthor(),
       //         n->getYear(), n->getQuantity());
@@ -291,7 +231,8 @@ int Library::dumpCSV(std::string filename) {
     }
 
     case DOC_COMIC: {
-      Comic *c = (Comic *)d;
+      // Comic *c = (Comic *)d;
+      Comic* c = dynamic_cast<Comic*> (d);
       ofs << "comic," << c->getTitle() << "," << c->getAuthor() << "," << c->getIssue() << "," << c->getYear() << "," << c->getQuantity() << std::endl;
       // sprintf(line, "comic,%s,%s,%d,%d,%d\n", c->getTitle(), c->getAuthor(),
       //         c->getIssue(), c->getYear(), c->getQuantity());
@@ -299,7 +240,8 @@ int Library::dumpCSV(std::string filename) {
     }
 
     case DOC_MAGAZINE: {
-      Magazine *m = (Magazine *)d;
+      // Magazine *m = (Magazine *)d;
+      Magazine* m = dynamic_cast<Magazine*> (d);
       ofs << "magazine," << m->getTitle() << ",," << m->getIssue() << "," << m->getYear() << "," << m->getQuantity() << std::endl;
       // sprintf(line, "magazine,%s,,%d,%d,%d\n", m->getTitle(), m->getIssue(),
       //         m->getYear(), m->getQuantity());
