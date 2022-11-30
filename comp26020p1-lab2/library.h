@@ -132,6 +132,7 @@ public:
   int addDocument(DocType t, std::string title, std::string author, int issue,
                   int year, int quantity);
   int addDocument(Document *d);
+  int addDocument(std::shared_ptr<Document> d);
   int delDocument(std::string title);
 
   /* Count the number of document of a given type present in the library */
@@ -144,7 +145,6 @@ public:
 private:
   /* Holds all documents in the library */
   // Document *_docs[32 * 1024];
-  std::vector<Document*> _docs;
+  std::vector<std::shared_ptr<Document>> _docs;
   int _docs_sz;
-  // std::vector<Document> values;
 };
