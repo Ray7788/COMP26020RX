@@ -165,12 +165,6 @@ bool Library::addDocument(std::shared_ptr<Document> d) {
 bool Library::delDocument(std::string title) {
   int index = -1;
 
-  // for(auto& _doc:_docs){
-  //   if(!(_doc->getTitle()).compare(title)){
-  //     index = i;
-  //     break;
-  //   }
-  // }
   for (int i = 0; i < _docs_sz; i++){
     if (!(_docs[i]->getTitle()).compare(title)) {
       index = i;
@@ -241,18 +235,15 @@ bool Library::dumpCSV(std::string filename) {
   }
 
   for(auto& _doc:_docs){
-    // Document *d = _doc;
 
     switch (_doc->getDocType()) {
     case DOC_NOVEL: {
-      // Novel *n = (Novel *)d;
       auto n = std::dynamic_pointer_cast<Novel>(_doc);
       ofs << "novel," << n->getTitle() << "," << n->getAuthor() << ",," << n->getYear() << "," << n->getQuantity() << std::endl;
       break;
     }
 
     case DOC_COMIC: {
-      // Comic *c = (Comic *)d;
       // Comic* c = dynamic_cast<Comic*> (d);
       auto c = std::dynamic_pointer_cast<Comic>(_doc);
       ofs << "comic," << c->getTitle() << "," << c->getAuthor() << "," << c->getIssue() << "," << c->getYear() << "," << c->getQuantity() << std::endl;
@@ -260,7 +251,6 @@ bool Library::dumpCSV(std::string filename) {
     }
 
     case DOC_MAGAZINE: {
-      // Magazine *m = (Magazine *)d;
       auto m = std::dynamic_pointer_cast<Magazine>(_doc);
       ofs << "magazine," << m->getTitle() << ",," << m->getIssue() << "," << m->getYear() << "," << m->getQuantity() << std::endl;
       break;
