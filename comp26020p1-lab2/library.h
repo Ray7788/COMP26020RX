@@ -31,9 +31,9 @@ public:
   int getYear();
   int getQuantity();
 
-  /* Used when someone tries to borrow a document, should return 1 on success
-   * and 0 on failure */
-  int borrowDoc();
+  /* Used when someone tries to borrow a document, should return true on success
+   * and false on failure */
+  bool borrowDoc();
 
   /* Used when someone returns a document */
   void returnDoc();
@@ -116,8 +116,8 @@ public:
    * 1 line per file:
    * <document type>,<title>,<author>,<issue>,<year>,<quantity>
    * A field not relevant for a given document type (e.g. issue for novel)
-   * is left blank. Return 1 on success, 0 on failure. */
-  int dumpCSV(std::string filename);
+   * is left blank. Return true on success, false on failure. */
+  bool dumpCSV(std::string filename);
 
   /* search for a document in the library, based on the title. We assume that
    * a title identifies uniquely a document in the library, i.e. there cannot
@@ -125,20 +125,20 @@ public:
    * found, NULL otherwise */
   Document *searchDocument(std::string title);
 
-  /* Add/delete a document to/from the library, return 1 on success and
-   * 0 on failure.  */
-  int addDocument(DocType t, std::string title, std::string author, int issue,
+  /* Add/delete a document to/from the library, return true on success and
+   * false on failure.  */
+  bool addDocument(DocType t, std::string title, std::string author, int issue,
                   int year, int quantity);
-  int addDocument(Document *d);
-  int addDocument(std::shared_ptr<Document> d);
-  int delDocument(std::string title);
+  bool addDocument(Document *d);
+  bool addDocument(std::shared_ptr<Document> d);
+  bool delDocument(std::string title);
 
   /* Count the number of document of a given type present in the library */
   int countDocumentOfType(DocType t);
 
-  /* Borrow/return documents, return 1 on success, 0 on failure */
-  int borrowDoc(std::string title);
-  int returnDoc(std::string title);
+  /* Borrow/return documents, return true on success, false on failure */
+  bool borrowDoc(std::string title);
+  bool returnDoc(std::string title);
 
 private:
   /* Holds all documents in the library */

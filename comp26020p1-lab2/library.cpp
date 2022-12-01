@@ -19,12 +19,12 @@ std::string Document::getTitle() { return _title; }
 int Document::getYear() { return _year; }
 int Document::getQuantity() { return _quantity; }
 
-int Document::borrowDoc() {
+bool Document::borrowDoc() {
   if (_quantity > 0) {
     _quantity--;
-    return 1;
+    return true;
   }
-  return 0;
+  return false;
 }
 
 void Document::returnDoc() { _quantity++; }
@@ -102,7 +102,7 @@ int Magazine::getIssue() { return _issue; }
 
 Library::Library() { _docs_sz = 0; };
 
-int Library::addDocument(DocType t, std::string title, std::string author,
+bool Library::addDocument(DocType t, std::string title, std::string author,
                          int issue, int year, int quantity) {
   // Document *d;
   std::shared_ptr<Document> d;
@@ -129,15 +129,16 @@ int Library::addDocument(DocType t, std::string title, std::string author,
   }
 
   default:
-    return 0;
+    return false;
   }
   return addDocument(d);
+  return true;
 }
 
-int Library::addDocument(Document *d) {
+bool Library::addDocument(Document *d) {
   for(auto& _doc: _docs){
     if (!(_doc->getTitle()).compare(d->getTitle())){
-      return 0;
+      return false;
     }
   }
 
@@ -145,23 +146,23 @@ int Library::addDocument(Document *d) {
   
   _docs.push_back(sd);
   _docs_sz++;
-  return 1;
+  return true;
 }
 
 //  overload add iterator
-int Library::addDocument(std::shared_ptr<Document> d) {
+bool Library::addDocument(std::shared_ptr<Document> d) {
   for(auto& _doc: _docs){
     if (!(_doc->getTitle()).compare(d->getTitle())){
-      return 0;
+      return false;
     }
   }
 
   _docs.push_back(d);
   _docs_sz++;
-  return 1;
+  return true;
 }
 
-int Library::delDocument(std::string title) {
+bool Library::delDocument(std::string title) {
   int index = -1;
 
   // for(auto& _doc:_docs){
@@ -180,10 +181,10 @@ int Library::delDocument(std::string title) {
   if (index != -1) {
     _docs.erase(_docs.begin()+index);
     _docs_sz--;
-    return 1;
+    return true;
   }
 
-  return 0;  
+  return false;  
 }
 
 int Library::countDocumentOfType(DocType t) {
@@ -213,29 +214,30 @@ void Library::print() {
   }
 }
 
-int Library::borrowDoc(std::string title) {
+bool Library::borrowDoc(std::string title) {
   Document *d = searchDocument(title);
   if (d){
     return d->borrowDoc();
+    return true;
   }
-  return 0;
+  return false;
 }
 
-int Library::returnDoc(std::string title) {
+bool Library::returnDoc(std::string title) {
   Document *d = searchDocument(title);
   if (d) {
     d->returnDoc();
-    return 1;
+    return true;
   }
-  return 0;
+  return false;
 }
 
-int Library::dumpCSV(std::string filename) {
+bool Library::dumpCSV(std::string filename) {
   std::ofstream ofs;
   ofs.open(filename);
 
   if (!ofs){
-    return 0;
+    return false;
   }
 
   for(auto& _doc:_docs){
@@ -265,11 +267,11 @@ int Library::dumpCSV(std::string filename) {
     }
 
     default:
-      return 0;
+      return false;
     }
 
   }
 
   ofs.close();
-  return 1;
+  return true;
 }
