@@ -105,26 +105,20 @@ Library::Library() { _docs_sz = 0; };
 
 bool Library::addDocument(DocType t, const std:: string title, const std:: string author,
                          int issue, int year, int quantity) {
-  // Document *d;
+
   std::shared_ptr<Document> d;
   switch (t) {
   case DOC_NOVEL: {
-    // d = (Document *)new Novel(title, author, year, quantity);
-
     d = std::make_shared<Novel> (title, author, year, quantity);
     break;
   }
 
   case DOC_COMIC: {
-    // d = (Document *)new Comic(title, author, issue, year, quantity);
-
     d = std::make_shared<Comic> (title, author, issue, year, quantity);
     break;
   }
 
   case DOC_MAGAZINE: {
-    // d = (Document *)new Magazine(title, issue, year, quantity);
-
     d = std::make_shared<Magazine> (title, issue, year, quantity);
     break;
   }
@@ -143,14 +137,15 @@ bool Library::addDocument(Document *d) {
     }
   }
 
-  auto sd = std::shared_ptr<Document>(d);
+  // change to smart pointer
+  auto smartd = std::shared_ptr<Document>(d);
   
-  _docs.push_back(sd);
+  _docs.push_back(smartd);
   _docs_sz++;
   return true;
 }
 
-//  overload add iterator
+//  overload addDocument
 bool Library::addDocument(std::shared_ptr<Document> d) {
   for(auto& _doc: _docs){
     if (!(_doc->getTitle()).compare(d->getTitle())){
@@ -188,6 +183,7 @@ int Library::countDocumentOfType(DocType t) {
   return res;
 }
 
+// return a raw pointer
 Document *Library::searchDocument(const std:: string title) {
   for(auto& _doc:_docs){
     if (!(_doc->getTitle()).compare(title)){ 
@@ -239,7 +235,6 @@ bool Library::dumpCSV(const std:: string filename) {
     }
 
     case DOC_COMIC: {
-      // Comic* c = dynamic_cast<Comic*> (d);
       auto c = std::dynamic_pointer_cast<Comic>(_doc);
       ofs << "comic," << c->getTitle() << "," << c->getAuthor() << "," << c->getIssue() << "," << c->getYear() << "," << c->getQuantity() << std::endl;
       break;
