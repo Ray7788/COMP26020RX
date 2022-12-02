@@ -8,8 +8,9 @@
 #include <vector>
 #include <memory>
 
+Document::~Document() {}
 
-void Document::updateTitle(std::string newTitle) {
+void Document::updateTitle(const std:: string newTitle) {
   _title = newTitle;
 }
 
@@ -30,7 +31,7 @@ bool Document::borrowDoc() {
 void Document::returnDoc() { _quantity++; }
 /*-------------------------------------------------------------------------------------------------*/
 
-Novel::Novel(std::string title, std::string author, int year, int quantity) {
+Novel::Novel(const std:: string title, const std:: string author, int year, int quantity) {
   _title = title;
   _author = author;
   _year = year;
@@ -46,14 +47,14 @@ void Novel::print() {
   std::cout << "Novel, title: " << _title << ", author: " << _author << ", year: "<< _year << ", quantity: "<< _quantity << "\n";
 }
 
-void Novel::updateAuthor(std::string newAuthor) {
+void Novel::updateAuthor(const std:: string newAuthor) {
   _author = newAuthor;
 }
 
 std::string Novel::getAuthor() { return _author; }
 /*-------------------------------------------------------------------------------------------------*/
 
-Comic::Comic(std::string title, std::string author, int issue, int year, int quantity) {
+Comic::Comic(const std:: string title, const std:: string author, int issue, int year, int quantity) {
   _title = title;
   _author = author;
   _year = year;
@@ -70,7 +71,7 @@ void Comic::print() {
   std::cout << "Comic, title: " << _title << ", author: " << _author << ", issue: " << _issue << ", year: "<< _year << ", quantity: "<< _quantity << "\n";
 }
 
-void Comic::updateAuthor(std::string newAuthor) {
+void Comic::updateAuthor(const std:: string newAuthor) {
   _author = newAuthor;
 }
 
@@ -79,7 +80,7 @@ std::string Comic::getAuthor() { return _author; }
 int Comic::getIssue() { return _issue; }
 /*-------------------------------------------------------------------------------------------------*/
 
-Magazine::Magazine(std::string title, int issue, int year, int quantity) {
+Magazine::Magazine(const std:: string title, int issue, int year, int quantity) {
   _title = title;
   _year = year;
   _quantity = quantity;
@@ -102,7 +103,7 @@ int Magazine::getIssue() { return _issue; }
 
 Library::Library() { _docs_sz = 0; };
 
-bool Library::addDocument(DocType t, std::string title, std::string author,
+bool Library::addDocument(DocType t, const std:: string title, const std:: string author,
                          int issue, int year, int quantity) {
   // Document *d;
   std::shared_ptr<Document> d;
@@ -162,21 +163,16 @@ bool Library::addDocument(std::shared_ptr<Document> d) {
   return true;
 }
 
-bool Library::delDocument(std::string title) {
-  int index = -1;
-
-  for (int i = 0; i < _docs_sz; i++){
-    if (!(_docs[i]->getTitle()).compare(title)) {
-      index = i;
+bool Library::delDocument(const std:: string title) {
+  for(auto iter = _docs.begin(); iter != _docs.end(); iter++){
+  // for (int i = 0; i < _docs_sz; i++){
+    if (!((*iter)->getTitle()).compare(title)) {
+      _docs.erase(iter);
+      return true;
       break;
     }
   }
 
-  if (index != -1) {
-    _docs.erase(_docs.begin()+index);
-    _docs_sz--;
-    return true;
-  }
 
   return false;  
 }
@@ -193,7 +189,7 @@ int Library::countDocumentOfType(DocType t) {
   return res;
 }
 
-Document *Library::searchDocument(std::string title) {
+Document *Library::searchDocument(const std:: string title) {
   for(auto& _doc:_docs){
     if (!(_doc->getTitle()).compare(title)){ 
       return _doc.get();
@@ -208,7 +204,7 @@ void Library::print() {
   }
 }
 
-bool Library::borrowDoc(std::string title) {
+bool Library::borrowDoc(const std:: string title) {
   Document *d = searchDocument(title);
   if (d){
     return d->borrowDoc();
@@ -217,7 +213,7 @@ bool Library::borrowDoc(std::string title) {
   return false;
 }
 
-bool Library::returnDoc(std::string title) {
+bool Library::returnDoc(const std:: string title) {
   Document *d = searchDocument(title);
   if (d) {
     d->returnDoc();
@@ -226,7 +222,7 @@ bool Library::returnDoc(std::string title) {
   return false;
 }
 
-bool Library::dumpCSV(std::string filename) {
+bool Library::dumpCSV(const std:: string filename) {
   std::ofstream ofs;
   ofs.open(filename);
 

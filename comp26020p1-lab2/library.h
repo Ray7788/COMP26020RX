@@ -13,6 +13,7 @@ public:
   /* return the document type (abstract method) */
   virtual DocType getDocType() = 0;
 
+  virtual ~Document();
   /* print the document attributes in a single line on the standard output
    * (abstract method), the format for the various document types is as
    * follows:
