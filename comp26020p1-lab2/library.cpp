@@ -165,7 +165,6 @@ bool Library::addDocument(std::shared_ptr<Document> d) {
 
 bool Library::delDocument(const std:: string title) {
   for(auto iter = _docs.begin(); iter != _docs.end(); iter++){
-  // for (int i = 0; i < _docs_sz; i++){
     if (!((*iter)->getTitle()).compare(title)) {
       _docs.erase(iter);
       return true;
@@ -199,8 +198,8 @@ Document *Library::searchDocument(const std:: string title) {
 }
 
 void Library::print() {
-  for (int i = 0; i < _docs_sz; i++){
-    _docs[i]->print();
+  for(auto iter = _docs.begin(); iter != _docs.end(); iter++){
+    (*iter)->print();
   }
 }
 
