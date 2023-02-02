@@ -15,4 +15,4 @@ clockwise :: QuadTree -> QuadTree -> QuadTree -> QuadTree -> QuadTree
 clockwise a b c d = Grid a b c d
 
 anticlockwise :: QuadTree -> QuadTree -> QuadTree -> QuadTree -> QuadTree
-anticlockwise a b c d = Grid d c b a
+anticlockwise a b c d = Grid a d c b
