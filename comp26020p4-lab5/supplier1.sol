@@ -46,6 +46,7 @@ contract Paylock {
 
     function collect_2_Y() external {
         require( st == State.Delay );
+        // E1
         require(clock < 8);
         st = State.Done_2;
         disc = 5;
@@ -77,6 +78,7 @@ contract Supplier {
         r = Rental(rent);
     }
     
+    // E3
     function acquire_resource() external payable{
         require(rSt == ResourceState.Untouched);
         r.rent_out_resource.value(1 wei)();
@@ -95,11 +97,7 @@ contract Supplier {
         st = State.Completed;
     }
     
-    fallback() payable external {
-        emit Paid(address(this).balance);
-        if(address(r).balance > 1 wei){
-            r.retrieve_resource();
-        }
+    receive() external payable{
     }
 }
 
@@ -113,6 +111,7 @@ contract Rental {
         resource_available = true;
     }
     
+    // E4
     function rent_out_resource() external payable{
         require(resource_available == true);
         //CHECK FOR PAYMENT HERE
@@ -125,7 +124,12 @@ contract Rental {
         require(resource_available == false && msg.sender == resource_owner);
         //RETURN DEPOSIT HERE
         (bool sucess,) = resource_owner.call.value(deposit)("");
+        require(sucess);
         resource_available = true;
+    }
+    
+    function report_balance() external view returns(uint256) {
+        return address(this).balance;
     }
     
     receive() external payable {
