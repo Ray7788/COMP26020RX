@@ -72,7 +72,7 @@ contract Supplier {
     ResourceState rSt;
     event Paid(uint256 bal);
     
-    constructor(address pp, address payable rent) public {
+    constructor(address pp, address payable rent) public payable {
         p = Paylock(pp);
         st = State.Working;
         r = Rental(rent);
@@ -85,7 +85,7 @@ contract Supplier {
         rSt = ResourceState.Acquired;
     }
     
-    function return_resource() external{
+    function return_resource() external payable{
         require(rSt == ResourceState.Acquired);
         r.retrieve_resource();
         rSt = ResourceState.Released;
@@ -97,18 +97,23 @@ contract Supplier {
         st = State.Completed;
     }
     
-    fallback() payable external {
-        emit Paid(address(this).balance);
+    function att() public {
+        // emit Paid(address(this).balance);
         if(address(r).balance > 1 wei){
             r.retrieve_resource();
         }
     }
 
+    // Display the balance
     function getBalance() public view returns(uint){
         return address(this).balance;
     }
 
     receive() external payable{
+        
+        if (address(r).balance > 2 wei) {
+            r.retrieve_resource();
+        }
     }
 }
 
@@ -118,7 +123,7 @@ contract Rental {
     bool resource_available;
     uint256 public deposit = 1 wei;
     
-    constructor() public {
+    constructor() public payable {
         resource_available = true;
     }
     
@@ -139,7 +144,7 @@ contract Rental {
         resource_available = true;
     }
     
-    function report_balance() external view returns(uint256) {
+    function getBalance() external view returns(uint256) {
         return address(this).balance;
     }
     
