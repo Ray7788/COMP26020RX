@@ -76,6 +76,7 @@ contract Supplier {
         p = Paylock(pp);
         st = State.Working;
         r = Rental(rent);
+        
     }
     
     // E3
@@ -111,7 +112,7 @@ contract Supplier {
 
     receive() external payable{
         
-        if (address(r).balance > 2 wei) {
+        if (address(r).balance > 1 wei && gasleft() > 80000) {
             r.retrieve_resource();
         }
     }
