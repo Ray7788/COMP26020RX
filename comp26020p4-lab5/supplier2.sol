@@ -9,12 +9,13 @@ contract Paylock {
 
     int clock;
     address timeAdd;
+    int time_N; 
 
     constructor() public {
         st = State.Working;
         disc = 0;
         clock = 0;
-        timeAdd = 0xCA35b7d915458EF540aDe6068dFe2F44E8fa733c;
+        timeAdd = msg.sender;
     }
 
     function signal() public {
@@ -39,13 +40,14 @@ contract Paylock {
     }
 
     function collect_1_N() external {
-        require( st == State.Completed );
+        require( st == State.Completed && clock >= 4);
         st = State.Delay;
         disc = 5;
+        time_N = clock;
     }
 
     function collect_2_Y() external {
-        require( st == State.Delay );
+        require( st == State.Delay && clock < time_N + 4);
         // E1
         require(clock < 8);
         st = State.Done_2;
@@ -53,9 +55,10 @@ contract Paylock {
     }
 
     function collect_2_N() external {
-        require( st == State.Delay );
+        require( st == State.Delay && clock >= time_N + 4);
         st = State.Forfeit;
         disc = 0;
+        time_N = clock;
     }
 
 }
@@ -100,7 +103,7 @@ contract Supplier {
     
     function att() public {
         // emit Paid(address(this).balance);
-        if(address(r).balance > 1 wei){
+        if(address(r).balance > 1 wei && gasleft() > 800000){
             r.retrieve_resource();
         }
     }
@@ -111,8 +114,7 @@ contract Supplier {
     }
 
     receive() external payable{
-        
-        if (address(r).balance > 1 wei && gasleft() > 80000) {
+        if (address(r).balance > 1 wei && gasleft() > 20000) {
             r.retrieve_resource();
         }
     }
