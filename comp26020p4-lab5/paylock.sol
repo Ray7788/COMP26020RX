@@ -9,12 +9,13 @@ contract Paylock {
 
     int clock;
     address timeAdd;
+    int time_N; 
 
     constructor() public {
         st = State.Working;
         disc = 0;
         clock = 0;
-        timeAdd = 0xCA35b7d915458EF540aDe6068dFe2F44E8fa733c;
+        timeAdd = msg.sender;
     }
 
     function signal() public {
@@ -39,23 +40,24 @@ contract Paylock {
     }
 
     function collect_1_N() external {
-        require( st == State.Completed );
+        require( st == State.Completed && clock >= 4);
         st = State.Delay;
         disc = 5;
+        time_N = clock;
     }
 
     function collect_2_Y() external {
-        require( st == State.Delay );
+        require( st == State.Delay && clock < time_N + 4);
         // E1
-        require(clock < 8);
         st = State.Done_2;
         disc = 5;
     }
 
     function collect_2_N() external {
-        require( st == State.Delay );
+        require( st == State.Delay && clock >= time_N + 4);
         st = State.Forfeit;
         disc = 0;
+        time_N = clock;
     }
 
 }
@@ -72,10 +74,11 @@ contract Supplier {
     ResourceState rSt;
     event Paid(uint256 bal);
     
-    constructor(address pp, address payable rent) public {
+    constructor(address pp, address payable rent) public payable {
         p = Paylock(pp);
         st = State.Working;
         r = Rental(rent);
+        rSt = ResourceState.Untouched;
     }
     
     // E3
@@ -85,18 +88,23 @@ contract Supplier {
         rSt = ResourceState.Acquired;
     }
     
-    function return_resource() external{
+    function return_resource() external payable{
         require(rSt == ResourceState.Acquired);
         r.retrieve_resource();
         rSt = ResourceState.Released;
     }
     
     function finish() external {
-        require (st == State.Working);
+        require (st == State.Working && rSt == ResourceState.Released);
         p.signal();
         st = State.Completed;
     }
-    
+
+    // Display the balance
+    function getBalance() public view returns(uint){
+        return address(this).balance;
+    }
+
     receive() external payable{
     }
 }
@@ -105,9 +113,9 @@ contract Rental {
     
     address resource_owner;
     bool resource_available;
-    uint256 public deposit = 1 wei;
+    uint256 deposit = 1 wei;
     
-    constructor() public {
+    constructor() public payable {
         resource_available = true;
     }
     
@@ -128,7 +136,8 @@ contract Rental {
         resource_available = true;
     }
     
-    function report_balance() external view returns(uint256) {
+    // Display the balance
+    function getBalance() external view returns(uint256) {
         return address(this).balance;
     }
     

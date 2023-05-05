@@ -49,7 +49,6 @@ contract Paylock {
     function collect_2_Y() external {
         require( st == State.Delay && clock < time_N + 4);
         // E1
-        require(clock < 8);
         st = State.Done_2;
         disc = 5;
     }
