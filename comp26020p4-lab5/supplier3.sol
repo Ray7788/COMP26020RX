@@ -125,7 +125,7 @@ contract Rental {
     
     address resource_owner;
     bool resource_available;
-    uint256 public deposit = 1 wei;
+    uint256 deposit = 1 wei;
     
     constructor() public payable {
         resource_available = true;
